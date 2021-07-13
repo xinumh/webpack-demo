@@ -1,35 +1,22 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
-  entry: {
-    index: './src/index.js',
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    port: 9000,
-    contentBase: './dist'
-  },
-  plugins: [
-    new HtmlWebpackPlugin({title: 'development'})
-  ],
+  entry: './src/index.js',
   output: {
-    filename: '[name].[contenthash].js',
+    filename: 'webpack-numbers.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true
+    library: {
+      name: "webpackNumbers",
+      type: 'umd'
+    },
+    // clean: true
   },
-  optimization: {
-    runtimeChunk: 'single',
-    moduleIds: 'deterministic',
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
+  externals: {
+    lodash: {
+      commonjs: 'lodash',
+      commonjs2: 'lodash',
+      amd: 'lodash',
+      root: '_',
     }
   }
 }

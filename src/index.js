@@ -1,17 +1,22 @@
-import Print from './print'
+import _ from 'lodash';
+import numRef from './ref.json';
 
-async function getComponent() {
-  const element = document.createElement('div');
-  const { default: _ } = await import ('lodash')
-
-
-  element.innerHTML = _.join(['Hello', 'webpack22'], ' ');
-
-  element.onclick = Print.bind(null, 'Hello webpack!');
-
-  return element;
+export function numToWord(num) {
+  return _.reduce(
+    numRef,
+    (accum, ref) => {
+      return ref.num === num ? ref.word : accum;
+    },
+    ''
+  );
 }
 
-getComponent().then(component => {
-  document.body.appendChild(component);
-})
+export function wordToNum(word) {
+  return _.reduce(
+    numRef,
+    (accum, ref) => {
+      return ref.word === word && word.toLowerCase() ? ref.num : accum;
+    },
+    -1
+  );
+}
